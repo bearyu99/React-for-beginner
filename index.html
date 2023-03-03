@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState(0);
+      const [switched, setSwitched] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onSwitch = () => {
+        reset();
+        setSwitched((current) => !current);
+      };
+      return (
+        <div class="flex flex-col p-4 w-96 bg-gray-100 rounded-2xl">
+          <div class="flex justify-between items-center mb-4">
+            <label htmlFor="minutes" class="mr-2">
+              Minutes
+            </label>
+            <input
+              value={switched ? amount * 60 : amount}
+              id="minutes"
+              class="w-3/4 border-gray-300 enabled:bg-transparent enabled:border-b-2"
+              placeholder="Minutes"
+              type="number"
+              disabled={switched}
+              onChange={onChange}
+            />
+          </div>
+          <div class="flex justify-between items-center pb-4">
+            <label htmlFor="hours" class="mr-2">
+              Hours
+            </label>
+            <input
+              value={switched ? amount : (amount / 60).toFixed(2)}
+              id="hours"
+              class="w-3/4 border-gray-300 enabled:bg-transparent enabled:border-b-2"
+              placeholder="Hours"
+              type="number"
+              disabled={!switched}
+              onChange={onChange}
+            />
+          </div>
+          <div class="flex">
+            <button
+              onClick={onSwitch}
+              class="mr-2 py-2 px-4 w-full bg-gray-50 border border-gray-300 rounded-lg text-sm"
+            >
+              {switched ? "Turn back" : "Switch"}
+            </button>
+            <button
+              onClick={reset}
+              class="py-2 px-4 w-1/4 bg-gray-50 border border-gray-300 rounded-lg text-sm"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      );
+    }
+    function KmToMiles() {
+      const [amount, setAmount] = React.useState(0);
+      const [switched, setSwitched] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onSwitch = () => {
+        reset();
+        setSwitched((current) => !current);
+      };
+      return (
+        <div class="flex flex-col p-4 w-96 bg-gray-100 rounded-2xl">
+          <div class="flex justify-between items-center mb-4">
+            <label htmlFor="kilometer" class="mr-2">
+              Kilometer
+            </label>
+            <input
+              value={switched ? amount * 1.609344 : amount}
+              id="kilometer"
+              class="w-3/4 border-gray-300 enabled:bg-transparent enabled:border-b-2"
+              placeholder="Kilometer"
+              type="number"
+              disabled={switched}
+              onChange={onChange}
+            />
+          </div>
+          <div class="flex justify-between items-center pb-4">
+            <label htmlFor="miles" class="mr-2">
+              Miles
+            </label>
+            <input
+              value={switched ? amount : (amount / 1.609344).toFixed(3)}
+              id="miles"
+              class="w-3/4 border-gray-300 enabled:bg-transparent enabled:border-b-2"
+              placeholder="Miles"
+              type="number"
+              disabled={!switched}
+              onChange={onChange}
+            />
+          </div>
+          <div class="flex">
+            <button
+              onClick={onSwitch}
+              class="mr-2 py-2 px-4 w-full bg-gray-50 border border-gray-300 rounded-lg text-sm"
+            >
+              {switched ? "Turn back" : "Switch"}
+            </button>
+            <button
+              onClick={reset}
+              class="py-2 px-4 w-1/4 bg-gray-50 border border-gray-300 rounded-lg text-sm"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      );
+    }
+    function App() {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div class="flex flex-col items-center justify-center h-screen">
+          <div class="flex items-center mb-4 p-4 w-96 bg-gray-100 rounded-2xl">
+            <span class="text-sm font-medium text-gray-900 basis-1/3">
+              Super Converter
+            </span>
+            <select
+              value={index}
+              onChange={onSelect}
+              class="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+            >
+              <option value="xx">Select your units</option>
+              <option value="0">Minutes & Hours</option>
+              <option value="1">Km & Miles</option>
+            </select>
+          </div>
+          {index === "xx" ? "Please select your unit" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
